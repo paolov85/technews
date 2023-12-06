@@ -1,10 +1,11 @@
 @import 'variables';
-// @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
 .nav {
     background-color: aqua;
-    height: 200px;
 }
 .nav-pills {
-    background-color: red;
+    height: 7em;
+    
+   
 }
