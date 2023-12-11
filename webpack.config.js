@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
+const CopyPlugin = require("copy-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -35,6 +36,11 @@ const config = {
         }),
         new Dotenv({
             path: '.env',
+        }),
+        new CopyPlugin({
+            patterns: [
+              { from: 'src/img', to: 'img' },
+            ],
         })
         // Add your plugins here
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
