@@ -37,52 +37,41 @@ window.addEventListener('load', () => {
                 .get(itemUrl)
                 .then((response) => {
                     console.log(response.data);
-                    createCard()
                 })
+                createCard()
         });
     }
 
+
+    function createNewElement(elTag, elParent, elClasses, elContent) {
+        const element = document.createElement(elTag)
+
+        if (elClasses) {
+            element.classList.add(...elClasses);
+        }
+
+        if (elContent) {
+            element.innerHTML = elContent;
+        }
+
+        const selected = document.querySelector(elParent)
+        selected.appendChild(element);
+
+    }
+
     function createCard() {
-        const cardContainer = document.querySelector('.main')
-
-        const cardWrap = document.createElement('div')
-        cardWrap.setAttribute('class', 'card-warp card mb-3')
-
-        const cardHead = document.createElement('h5')
-        cardHead.setAttribute('class', 'card-header text-center')
-        const headText = document.createTextNode('10 settembre 2023')
-        cardHead.appendChild(headText)
-
-        const cardBody = document.createElement('div')
-        cardBody.setAttribute('class', 'card-body d-flex justify-content-around')
-        const cardImg = document.createElement('img')
-        cardImg.setAttribute('class', 'col-3 mx-auto p-4')
-        cardImg.setAttribute('src', 'img/logo.svg')
-        cardImg.setAttribute('alt', 'img')
-        const cardMain = document.createElement('div')
-        cardMain.setAttribute('class', 'card-text col-9 p-5')
-        const cardTitle = document.createElement('h5')
-        cardTitle.setAttribute('class', 'card-title')
-        const titleText = document.createTextNode('Windows 1000 released')
-        cardTitle.appendChild(titleText)
-        const cardAuth = document.createElement('p')
-        cardAuth.setAttribute('class', 'card-text')
-        const authText = document.createTextNode('by Paolo')
-        cardAuth.appendChild(authText)
-        const cardLink = document.createElement('a')
-        cardLink.setAttribute('href', '#')
-        cardLink.setAttribute('class', 'btn btn-primary')
-        const link = document.createTextNode('read more')
-        cardLink.appendChild(link)
-        
-        cardMain.appendChild(cardTitle)
-        cardMain.appendChild(cardAuth)
-        cardMain.appendChild(cardLink)
-        cardBody.appendChild(cardImg)
-        cardBody.appendChild(cardMain)
-        cardWrap.appendChild(cardHead)
-        cardWrap.appendChild(cardBody)
-        cardContainer.appendChild(cardWrap)
+        createNewElement('div', '.main', ['card-warp', 'card', 'mb-3'])
+        createNewElement('h5', '.card-warp', ['card-header', 'text-center'], '10 settembre 2023')
+        createNewElement('div', '.card-warp', ['card-body', 'd-flex', 'justify-content-around'])
+        createNewElement('img', '.card-body', ['card-img', 'col-3', 'mx-auto', 'p-4'])
+        const imgSel = document.getElementsByClassName('card-img')
+        imgSel[0].src = 'img/logo.svg'
+        createNewElement('div', '.card-body', ['card-main', 'card-text', 'col-9', 'p-5'])
+        createNewElement('h5', '.card-main', ['card-title'], 'Windows 1000 released')
+        createNewElement('p', '.card-main', ['card-auth', 'card-text'], 'by Paolo')
+        createNewElement('a', '.card-main', ['card-link', 'btn', 'btn-primary'], 'read more')
+        const linkSel = document.getElementsByClassName('card-link')
+        linkSel[0].href = '#'
     }
 
 
