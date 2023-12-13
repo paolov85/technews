@@ -8,6 +8,8 @@ import "../scss/style.scss";
 
 window.addEventListener('load', () => {
 
+
+
     const API_ITEM = process.env.API_ITEM; //https://hacker-news.firebaseio.com/v0/item/
     const API_ASK = process.env.API_ASK;
     const API_TOP = process.env.API_TOP;
@@ -30,50 +32,74 @@ window.addEventListener('load', () => {
     }
 
     function getItem(apiUrl, newsIds) {
-        newsIdSmallList = newsIds.splice(0, 10)
-        newsIdSmallList.forEach(newsId => {
+        // newsIdSmallList = newsIds.splice(0, 10)
+        newsIds.forEach(newsId => {
             let itemUrl = `${apiUrl}${newsId}.json`
             axios
                 .get(itemUrl)
                 .then((response) => {
-                    console.log(response.data);
+                    console.log(response.data)
+                    createCard(response.data)
                 })
-                createCard()
         });
     }
 
 
-    function createNewElement(elTag, elParent, elClasses, elContent) {
-        const element = document.createElement(elTag)
 
-        if (elClasses) {
-            element.classList.add(...elClasses);
+    function createCard(item) {
+        const mainCard = document.getElementById('main')
+        let date = dateConversion(item.time)
+        let cardImg = ""
+        switch(item.type) {
+            case 'job':
+                cardImg = 'job'
+                break
+            case 'story':
+                cardImg = 'logo'
+                break
+            case 'comment':
+                cardImg = 'comment'
+                break
+            case 'poll':
+                cardImg = 'poll'
+                break
+            case 'pollopt':
+                cardImg = 'pollopt'
+                break
         }
 
-        if (elContent) {
-            element.innerHTML = elContent;
-        }
-
-        const selected = document.querySelector(elParent)
-        selected.appendChild(element);
-
+        const card = `
+        <div class="card-warp card mb-3">
+            <h5 class="card-header text-center">${date}</h5>
+            <div class="card-body d-flex justify-content-around">
+                <img class="card-logo col-3 mx-auto p-4" src="img/${cardImg}.svg" alt="img">
+                <div class="card-main col-9 p-5">
+                    <h5 class="card-title">${item.title}</h5>
+                    <p class="card-text">by ${item.by}</p>
+                    <a href="${item.url}" class="btn btn-primary">read more</a>
+                </div>
+            </div>
+        </div>
+        `
+        mainCard.insertAdjacentHTML("beforeend", card)
     }
 
-    function createCard() {
-        createNewElement('div', '.main', ['card-warp', 'card', 'mb-3'])
-        createNewElement('h5', '.card-warp', ['card-header', 'text-center'], '10 settembre 2023')
-        createNewElement('div', '.card-warp', ['card-body', 'd-flex', 'justify-content-around'])
-        createNewElement('img', '.card-body', ['card-img', 'col-3', 'mx-auto', 'p-4'])
-        const imgSel = document.getElementsByClassName('card-img')
-        imgSel[0].src = 'img/logo.svg'
-        createNewElement('div', '.card-body', ['card-main', 'card-text', 'col-9', 'p-5'])
-        createNewElement('h5', '.card-main', ['card-title'], 'Windows 1000 released')
-        createNewElement('p', '.card-main', ['card-auth', 'card-text'], 'by Paolo')
-        createNewElement('a', '.card-main', ['card-link', 'btn', 'btn-primary'], 'read more')
-        const linkSel = document.getElementsByClassName('card-link')
-        linkSel[0].href = '#'
-    }
-
+    function dateConversion(unixTime) {
+        let milliseconds = unixTime * 1000;
+        let dateObject = new Date(milliseconds);
+        const options = {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: false,
+        };
+        let date = dateObject.toUTCString('en-US', options).split(',').join(' ');
+      
+        return date;
+      }
 
 
 
