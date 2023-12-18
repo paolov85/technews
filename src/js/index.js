@@ -18,9 +18,10 @@ window.addEventListener('load', () => {
     const API_SHOW = process.env.API_SHOW;
 
     let newsIdList
-    let newsIdSmallList
+    let newsIdShortList
+    let loading = false;
     getNewsIds(API_LATEST)
-    getItem(API_ITEM, newsIdSmallList)
+    getItem(API_ITEM, newsIdShortList)
 
     function getNewsIds(apiUrl) {
         axios
@@ -32,8 +33,9 @@ window.addEventListener('load', () => {
     }
 
     function getItem(apiUrl, newsIds) {
-        // newsIdSmallList = newsIds.splice(0, 10)
-        newsIds.forEach(newsId => {
+
+        newsIdShortList = newsIds.splice(0, 10)
+        newsIdShortList.forEach(newsId => {
             let itemUrl = `${apiUrl}${newsId}.json`
             axios
                 .get(itemUrl)
@@ -42,6 +44,30 @@ window.addEventListener('load', () => {
                     createCard(response.data)
                 })
         });
+        document.getElementById('loadMoreBtn').addEventListener('click', function () {
+            console.log(document.getElementById('loadMoreBtn').classList)
+            console.log(document.getElementById('loading').classList)
+            if (loading) return;
+            loading = true;
+    
+            // mostra il loader
+            document.getElementById('loading').classList.remove('d-none');
+            document.getElementById('loadMoreBtn').classList.add('d-none');
+    
+            // simula il caricamento di nuovi dati (richiama la funzione di callback dopo un certo intervallo di tempo)
+            setTimeout(function () {
+                // aggiungi nuovi elementi alla tua pagina (es: fetch data from server)
+    
+                // nascondi il loader
+                document.getElementById('loading').classList.add('d-none');
+                document.getElementById('loadMoreBtn').classList.remove('d-none');
+    
+    
+                // aggiorna lo stato di caricamento
+                loading = false;
+            }, 2000);
+        });
+    
     }
 
 
@@ -50,12 +76,12 @@ window.addEventListener('load', () => {
         const mainCard = document.getElementById('main')
         let date = dateConversion(item.time)
         let cardImg = ""
-        switch(item.type) {
+        switch (item.type) {
             case 'job':
                 cardImg = 'job'
                 break
             case 'story':
-                cardImg = 'logo'
+                cardImg = 'story'
                 break
             case 'comment':
                 cardImg = 'comment'
@@ -84,23 +110,21 @@ window.addEventListener('load', () => {
         mainCard.insertAdjacentHTML("beforeend", card)
     }
 
+
     function dateConversion(unixTime) {
         let milliseconds = unixTime * 1000;
-        let dateObject = new Date(milliseconds);
-        const options = {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: false,
-        };
-        let date = dateObject.toUTCString('en-US', options).split(',').join(' ');
-      
-        return date;
-      }
+        var days = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'];
+        var months = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+        var date = new Date(milliseconds);
+        var day = days[date.getDay()];
+        var month = months[date.getMonth()];
+        var year = date.getFullYear();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var time = 'h ' + (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes);
+        return day + ' ' + date.getDate() + ' ' + month + ' ' + year + ' ' + time;
+    }
 
-
+    
 
 });
