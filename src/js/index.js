@@ -6,9 +6,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
 import "../scss/style.scss";
 
+
+
 window.addEventListener('load', () => {
 
-
+    document.getElementById('mainLoading').classList.add('d-none'); //controllare
 
     const API_ITEM = process.env.API_ITEM; //https://hacker-news.firebaseio.com/v0/item/
     const API_ASK = process.env.API_ASK;
@@ -19,7 +21,8 @@ window.addEventListener('load', () => {
 
     let newsIdList
     let newsIdShortList
-    let loading = false;
+    let firstId = 0
+    let lastId = 10
     getNewsIds(API_LATEST)
     getItem(API_ITEM, newsIdShortList)
 
@@ -34,7 +37,7 @@ window.addEventListener('load', () => {
 
     function getItem(apiUrl, newsIds) {
 
-        newsIdShortList = newsIds.splice(0, 10)
+        newsIdShortList = newsIds.splice(firstId, lastId)
         newsIdShortList.forEach(newsId => {
             let itemUrl = `${apiUrl}${newsId}.json`
             axios
@@ -42,32 +45,22 @@ window.addEventListener('load', () => {
                 .then((response) => {
                     console.log(response.data)
                     createCard(response.data)
+                    document.getElementById('loading').classList.add('d-none');
+                    document.getElementById('loadMoreBtn').classList.remove('d-none');
+            
                 })
         });
-        document.getElementById('loadMoreBtn').addEventListener('click', function () {
+        document.getElementById('loadMoreBtn').addEventListener('click', ()=>{
             console.log(document.getElementById('loadMoreBtn').classList)
             console.log(document.getElementById('loading').classList)
-            if (loading) return;
-            loading = true;
-    
-            // mostra il loader
             document.getElementById('loading').classList.remove('d-none');
             document.getElementById('loadMoreBtn').classList.add('d-none');
-    
-            // simula il caricamento di nuovi dati (richiama la funzione di callback dopo un certo intervallo di tempo)
-            setTimeout(function () {
-                // aggiungi nuovi elementi alla tua pagina (es: fetch data from server)
-    
-                // nascondi il loader
-                document.getElementById('loading').classList.add('d-none');
-                document.getElementById('loadMoreBtn').classList.remove('d-none');
-    
-    
-                // aggiorna lo stato di caricamento
-                loading = false;
-            }, 2000);
+            firstId += 10
+            lastId += 10
+            console.log(firstId, lastId)
+            getItem(API_ITEM, newsIdList)
         });
-    
+
     }
 
 
@@ -125,6 +118,6 @@ window.addEventListener('load', () => {
         return day + ' ' + date.getDate() + ' ' + month + ' ' + year + ' ' + time;
     }
 
-    
+
 
 });
