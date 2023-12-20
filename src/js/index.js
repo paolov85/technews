@@ -26,7 +26,6 @@ window.addEventListener('load', () => {
         document.getElementById('loadMoreBtn').classList.add('d-none');
         getCards(API_ITEM, newsIdList)
         firstId += 10
-        console.log(firstId)
     };
 
     let urlId = ""
@@ -37,14 +36,12 @@ window.addEventListener('load', () => {
             toDel.removeChild(toDel.firstChild);
         }
         const target = event.target.closest('button');
-        console.log(target)
         const inactive = document.querySelectorAll('.active')
         inactive.forEach((inactiveEl) => {
             inactiveEl.classList.remove('active')
         })
         target.classList.add('active')
         target ? urlId = target.id : urlId = null;
-        console.log(urlId)
         switch (urlId) {
             case 'news':
 
@@ -87,10 +84,11 @@ window.addEventListener('load', () => {
             axios
                 .get(itemUrl)
                 .then((response) => {
-
+                    console.log(response.data)
                     const item = response.data
                     const mainCard = document.getElementById('main')
-                    let date = dateConversion(item.time)
+                    const timeFixed = _get(response, 'data.time', 'senza orario')
+                    let date = dateConversion(timeFixed)
                     let cardImg = ""
                     switch (item.type) {
                         case 'job':
