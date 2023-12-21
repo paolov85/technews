@@ -16,98 +16,39 @@ const API_SHOW = process.env.API_SHOW;
 let newsIdList
 let newsIdShortList
 let firstId
+let urlId = ""
 
 window.addEventListener('load', () => {
 
     getNewsIds(API_LATEST)
 
-    document.getElementById('loadMoreBtn').onclick = () => {
-        document.getElementById('loading').classList.remove('d-none');
-        document.getElementById('loadMoreBtn').classList.add('d-none');
-        getCards(API_ITEM, newsIdList)
-        firstId += 10
-    };
-
-    let urlId = ""
-    const clickedTab = document.querySelector('.nav');
-    clickedTab.onclick = (event) => {
-        const toDel = document.getElementById('main')
-        while (toDel.firstChild) {
-            toDel.removeChild(toDel.firstChild);
-        }
-        const target = event.target.closest('button');
-        const inactive = document.querySelectorAll('.active')
-        inactive.forEach((inactiveEl) => {
-            inactiveEl.classList.remove('active')
-        })
-        target.classList.add('active')
-        target ? urlId = target.id : urlId = null;
-        switch (urlId) {
-            case 'news':
-
-                getNewsIds(API_LATEST)
-                break;
-
-            case 'top':
-                getNewsIds(API_TOP)
-                break;
-
-            case 'ask':
-                getNewsIds(API_ASK)
-                break;
-
-            case 'job':
-                getNewsIds(API_JOB)
-                break;
-        }
-
-    }
-
 
     function getNewsIds(apiUrl) {
+        document.getElementById('loadMoreBtn').classList.add('d-none');
         firstId = 0
         axios
-            .get(apiUrl)
-            .then((response) => {
-                newsIdList = response.data;
-                getCards(API_ITEM, newsIdList)
-                //verificare
-                document.getElementById('app').classList.remove('d-none');
-            })
+        .get(apiUrl)
+        .then((response) => {
+            newsIdList = response.data;
+            getCards(API_ITEM, newsIdList)
+            //verificare
+            document.getElementById('app').classList.remove('d-none');
+        })
     }
 
     function getCards(apiUrl, newsIds) {
-
         newsIdShortList = newsIds.splice(firstId, 10)
         newsIdShortList.forEach(newsId => {
             let itemUrl = `${apiUrl}${newsId}.json`
             axios
                 .get(itemUrl)
                 .then((response) => {
-                    console.log(response.data)
                     const item = response.data
                     const mainCard = document.getElementById('main')
-                    const timeFixed = _get(response, 'data.time', 'senza orario')
+                    const timeFixed = _get(response, 'data.time', 'unknow time')
                     let date = dateConversion(timeFixed)
-                    let cardImg = ""
-                    switch (item.type) {
-                        case 'job':
-                            cardImg = 'job'
-                            break
-                        case 'story':
-                            cardImg = 'story'
-                            break
-                        case 'comment':
-                            cardImg = 'comment'
-                            break
-                        case 'poll':
-                            cardImg = 'poll'
-                            break
-                        case 'pollopt':
-                            cardImg = 'pollopt'
-                            break
-                    }
-
+                    let cardImg = item.type
+                    
                     const card = `
                     <div class="card-warp card mb-3">
                         <h5 class="card-header text-center">${date}</h5>
@@ -116,16 +57,16 @@ window.addEventListener('load', () => {
                             <div class="card-main col-9 p-5">
                                 <h5 class="card-title">${item.title}</h5>
                                 <p class="card-text">by ${item.by}</p>
-                                <a href="${item.url}" class="btn btn-primary">read more</a>
+                                <a href="${item.url}" target="blank" class="btn btn-primary">read more</a>
                             </div>
                         </div>
                     </div>
                     `
                     mainCard.insertAdjacentHTML("beforeend", card)
+                    document.getElementById('loading').classList.add('d-none');
+                    document.getElementById('loadMoreBtn').classList.remove('d-none');
                 })
-
-            document.getElementById('loading').classList.add('d-none');
-            document.getElementById('loadMoreBtn').classList.remove('d-none');
+            
         });
     }
 
@@ -143,6 +84,44 @@ window.addEventListener('load', () => {
         return day + ' ' + date.getDate() + ' ' + month + ' ' + year + ' ' + time;
     }
 
+    const clickedTab = document.querySelector('.nav');
+    clickedTab.onclick = (event) => {
+        const toDel = document.getElementById('main')
+        while (toDel.firstChild) {
+            toDel.removeChild(toDel.firstChild);
+        }
+        const target = event.target.closest('button');
+        const inactive = document.querySelectorAll('.active')
+        inactive.forEach((inactiveEl) => {
+            inactiveEl.classList.remove('active')
+        })
+        target.classList.add('active')
+        urlId = target.id
+        switch (urlId) {
+            case 'news':
+                
+                getNewsIds(API_LATEST)
+                break;
 
+            case 'top':
+                getNewsIds(API_TOP)
+                break;
+
+            case 'ask':
+                getNewsIds(API_ASK)
+                break;
+
+            case 'job':
+                getNewsIds(API_JOB)
+                break;
+        }
+    }
+
+    document.getElementById('loadMoreBtn').onclick = () => {
+        document.getElementById('loading').classList.remove('d-none');
+        document.getElementById('loadMoreBtn').classList.add('d-none');
+        getCards(API_ITEM, newsIdList)
+        firstId += 10
+    };
 
 });
