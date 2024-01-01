@@ -24,8 +24,8 @@ const config = {
     devServer: {
         open: {
             app: {
-                //name: 'Google Chrome', //macOs
-                name: 'chrome', //windows
+                name: 'Google Chrome', //macOs
+                // name: 'chrome', //windows
             },
         },
         host: 'localhost',

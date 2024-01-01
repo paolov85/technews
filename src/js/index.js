@@ -25,15 +25,14 @@ window.addEventListener('load', () => {
 
     function getNewsIds(apiUrl) {
         document.getElementById('loadMoreBtn').classList.add('d-none');
+        document.getElementById('footer').classList.add('d-none');
         firstId = 0
         axios
-        .get(apiUrl)
-        .then((response) => {
-            newsIdList = response.data;
-            getCards(API_ITEM, newsIdList)
-            //verificare
-            document.getElementById('app').classList.remove('d-none');
-        })
+            .get(apiUrl)
+            .then((response) => {
+                newsIdList = response.data;
+                getCards(API_ITEM, newsIdList)
+            })
     }
 
     function getCards(apiUrl, newsIds) {
@@ -44,11 +43,12 @@ window.addEventListener('load', () => {
                 .get(itemUrl)
                 .then((response) => {
                     const item = response.data
+                    console.log(response.data)
                     const mainCard = document.getElementById('main')
                     const timeFixed = _get(response, 'data.time', 'unknow time')
                     let date = dateConversion(timeFixed)
                     let cardImg = item.type
-                    
+
                     const card = `
                     <div class="card-warp card mb-3">
                         <h5 class="card-header text-center">${date}</h5>
@@ -65,8 +65,9 @@ window.addEventListener('load', () => {
                     mainCard.insertAdjacentHTML("beforeend", card)
                     document.getElementById('loading').classList.add('d-none');
                     document.getElementById('loadMoreBtn').classList.remove('d-none');
+                    document.getElementById('footer').classList.remove('d-none');
                 })
-            
+
         });
     }
 
@@ -99,7 +100,7 @@ window.addEventListener('load', () => {
         urlId = target.id
         switch (urlId) {
             case 'news':
-                
+
                 getNewsIds(API_LATEST)
                 break;
 
@@ -123,5 +124,5 @@ window.addEventListener('load', () => {
         getCards(API_ITEM, newsIdList)
         firstId += 10
     };
-
+    document.getElementById('app').classList.remove('d-none');
 });

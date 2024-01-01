@@ -1,13 +1,56 @@
-@import 'variables';
-@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+  @import 'variables';
+  @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
-.nav {
-    background-color: aqua;
-}
-.nav-pills {
-    height: 7em;
-}
+  body {
 
-.card-logo {
-    width: 15%;
-}
+      font-family: 'Montserrat', sans-serif;
+      background-color: $lightBlue;
+
+      .bgRed {
+          background-color: $lightRed;
+      }
+
+      nav {
+          color: $white !important;
+
+          .nav-pills {
+              height: 7em;
+
+              button {
+                  color: $white !important;
+              }
+
+              .active {
+                  background-color: $darkRed !important;
+              }
+
+          }
+
+      }
+
+      .card-logo {
+          width: 15%;
+      }
+
+      footer {
+          color: $white !important;
+      }
+  }
+
+  @media screen and (min-width: 768px) {
+      nav {
+          .nav-head {
+              height: 3rem !important;
+              margin-bottom: 0.8rem;
+          }
+
+          .nav-pills {
+              height: 3rem !important;
+
+              button {
+                  height: 3rem !important;
+              }
+          }
+      }
+  }
