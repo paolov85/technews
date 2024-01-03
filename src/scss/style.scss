@@ -3,12 +3,15 @@
   @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
   body {
-
       font-family: 'Montserrat', sans-serif;
-      background-color: $lightBlue;
+      background-color: $white;
 
-      .bgRed {
-          background-color: $lightRed;
+      .bgDark {
+          background-color: $white !important;
+      }
+
+      .bgBlue {
+          background-color: $blue !important;
       }
 
       nav {
@@ -18,20 +21,29 @@
               height: 7em;
 
               button {
-                  color: $white !important;
+                  color: $black !important;
               }
 
               .active {
-                  background-color: $darkRed !important;
+                  background-color: $blue !important;
+                  color: $white !important
               }
 
           }
 
       }
 
-      .card-logo {
-          width: 15%;
-      }
+      .card-warp {
+          border-color: $blue;
+
+          h5 {
+              border-color: $blue;
+          }
+          
+          .card-logo {
+              width: 15%;
+            }
+        }
 
       footer {
           color: $white !important;
@@ -52,5 +64,9 @@
                   height: 3rem !important;
               }
           }
+      }
+
+      .main {
+          max-width: 60%;
       }
   }

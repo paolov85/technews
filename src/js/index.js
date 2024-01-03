@@ -51,12 +51,12 @@ window.addEventListener('load', () => {
 
                     const card = `
                     <div class="card-warp card mb-3">
-                        <h5 class="card-header text-center">${date}</h5>
-                        <div class="card-body d-flex justify-content-around">
+                        <h5 class="fw-bold card-header text-center">${date}</h5>
+                        <div class="card-body bgDark text-body d-flex justify-content-around">
                             <img class="card-logo col-3 mx-auto p-4" src="img/${cardImg}.svg" alt="img">
                             <div class="card-main col-9 p-5">
                                 <h5 class="card-title">${item.title}</h5>
-                                <p class="card-text">by ${item.by}</p>
+                                <p class="fst-italic card-text">by ${item.by}</p>
                                 <a href="${item.url}" target="blank" class="btn btn-primary">read more</a>
                             </div>
                         </div>
