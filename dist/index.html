@@ -1,72 +1,95 @@
 <!DOCTYPE html>
-<html>
+    <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <title>Tech Break</title>
-<script defer src="bundle.js"></script></head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tech Break</title>
+    <script defer src="bundle.js"></script></head>
 
-<body>
-    <div id="app" class="d-none">
+    <body>
+        <div id="app" class="d-none">
 
-        <nav class="shadow-sm text-body bg-white container-fluid sticky-top py-3 mb-3">
+            <nav class="shadow text-body bg-white container-fluid sticky-top py-3 mb-3">
 
-            <div class="nav-head d-flex justify-content-center">
-                <img src="img/logo.svg" alt="img">
-                <div class="nav-title d-flex justify-content-center align-item-center ms-3">
-                    <h1 class="m-0 pt-1">Tech Break</h1>
+                <div class="nav-head d-flex justify-content-center">
+                    <img src="img/logo.svg" alt="img">
+                    <div class="nav-title d-flex justify-content-center align-item-center ms-3">
+                        <h1 class="m-0 pt-1">Tech Break</h1>
+                    </div>
+                </div>
+                <div class="container-sm align-items-center nav nav-pills nav-justified">
+                    <button id="news" class="nav-link active h-100" aria-current="page">NEWS</button>
+                    <button id="job" class="nav-link h-100">JOB</button>
+                    <button id="top" class="nav-link h-100">TOP</button>
+                    <button id="ask" class="nav-link h-100">ASK</button>
+                </div>
+
+            </nav>
+
+            <main class="main container-lg" id="main">
+            </main>
+
+            <div id="loading" class="loading d-none d-flex justify-content-center">
+                <button class="btn btn-primary clearfix" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm  float-end" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button id="loadMoreBtn" class="loadMoreBtn d-none btn btn-primary clearfix" type="button">
+                    Load More News
+                </button>
+            </div>
+
+            <footer id="footer" class="bgBlue d-flex flex-wrap justify-content-between align-items-center py-3 mt-3">
+                <div class="col-md-4 d-flex align-items-center">
+                    <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                        <svg class="bi" width="30" height="24">
+                            <use xlink:href="#bootstrap" />
+                        </svg>
+                    </a>
+                    <span>&copy; 2023 | Paolo Vicaro</span>
+                </div>
+                <div class="card-body col-md-6 text-center text-md-end">
+                    <a class="d-inline link-white nav-link p-0 me-2" href="https://www.linkedin.com/in/paolo-vicaro"
+                        target="_blank">
+                        <img style="height: 2.5em; width: 2.5em;" class="bg-lRed rounded-circle" src="img/linkedIn.SVG"
+                            alt="linkedin">
+                    </a>
+                    <a class="d-inline link-white nav-link p-0 me-2" href="https://github.com/paolov85" target="_blank">
+                        <img style="height: 2.8em; width: 2.8em;" class="bg-lRed rounded-circle" src="img/github.SVG"
+                            alt="github">
+                    </a>
+
+                    <a class="d-inline link-white nav-link p-0 me-3" href="mailto:paolo.vicaro@gmail.com">
+                        <img style="height: 2.8em; width: 2.8em;" class="bg-lRed rounded-circle" src="img/mail.SVG"
+                            alt="mail">
+                    </a>
+                </div>
+            </footer>
+
+            <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Ops...</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ...something went wrong!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="refresh" class="btn btn-primary" >Refresh</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="container-sm align-items-center nav nav-pills nav-justified">
-                <button id="news" class="nav-link active h-100" aria-current="page">NEWS</button>
-                <button id="job" class="nav-link h-100">JOB</button>
-                <button id="top" class="nav-link h-100">TOP</button>
-                <button id="ask" class="nav-link h-100">ASK</button>
-            </div>
 
-        </nav>
-
-        <main class="main container-lg" id="main">
-        </main>
-
-        <div id="loading" class="loading d-none d-flex justify-content-center">
-            <button class="btn btn-primary clearfix" type="button" disabled>
-                <span class="spinner-border spinner-border-sm  float-end" role="status" aria-hidden="true"></span>
-                Loading...
-            </button>
         </div>
 
-        <div class="d-flex justify-content-center">
-            <button id="loadMoreBtn" class="loadMoreBtn d-none btn btn-primary clearfix" type="button">
-                Load More News
-            </button>
-        </div>
+    </body>
 
-        <footer id="footer" class="bgBlue d-flex flex-wrap justify-content-between align-items-center py-3 mt-3">
-            <div class="col-md-4 d-flex align-items-center">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-                    <svg class="bi" width="30" height="24">
-                        <use xlink:href="#bootstrap" />
-                    </svg>
-                </a>
-                <span>&copy; 2023 | Paolo Vicaro</span>
-            </div>
-            <div class="card-body col-md-6 text-center text-md-end">
-                <a class="d-inline link-white nav-link p-0 me-2" href="www.linkedin.com">
-                    <img style="height: 5em; width: 5em;" class="bg-lRed rounded-circle" src="img/linkedIn.SVG" alt="linkedin">
-                </a>
-                <a class="d-inline link-white nav-link p-0 me-2" href="www.github.com">
-                    <img style="height: 5em; width: 5em;" class="bg-lRed rounded-circle" src="img/github.SVG" alt="linkedin">
-                </a>
-                
-                <a class="d-inline link-white nav-link p-0 me-5" href="mailto:paolo.vicaro@gmail.com">
-                    <img style="height: 5em; width: 5em;" class="bg-lRed rounded-circle" src="img/mail.SVG" alt="linkedin">
-                </a>
-            </div>
-        </footer>
-
-    </div>
-
-</body>
-
-</html>
+    </html>
