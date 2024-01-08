@@ -83,8 +83,8 @@ window.addEventListener('load', () => {
 
     function dateConversion(unixTime) {
         let milliseconds = unixTime * 1000;
-        var days = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'];
-        var months = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+        var days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'decemer'];
         var date = new Date(milliseconds);
         var day = days[date.getDay()];
         var month = months[date.getMonth()];
