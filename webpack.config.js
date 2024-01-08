@@ -37,7 +37,7 @@ const config = {
         }),
         new Dotenv({
             // path: '.env',
-            systemvar: true
+            systemvars: true
         }),
         new CopyPlugin({
             patterns: [
