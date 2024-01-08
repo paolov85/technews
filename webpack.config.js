@@ -36,7 +36,8 @@ const config = {
             template: './src/index.html',
         }),
         new Dotenv({
-            path: '.env',
+            // path: '.env',
+            systemvar: true
         }),
         new CopyPlugin({
             patterns: [
