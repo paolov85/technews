@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
 import "../scss/style.scss";
 
-const API_ITEM = process.env.API_ITEM; //https://hacker-news.firebaseio.com/v0/item/
+const API_ITEM = process.env.API_ITEM;
 const API_ASK = process.env.API_ASK;
 const API_TOP = process.env.API_TOP;
 const API_JOB = process.env.API_JOB;
@@ -21,6 +21,7 @@ window.addEventListener('load', () => {
 
     getNewsIds(API_LATEST);
 
+    //la funzione getNewsIds() si occupa di recuperare, tramite una chiamata axios, di recuperare l'elenco degli id delle news.
     function getNewsIds(apiUrl) {
         document.getElementById('loadMoreBtn').classList.add('d-none');
         document.getElementById('footer').classList.add('d-none');
@@ -29,7 +30,7 @@ window.addEventListener('load', () => {
             .get(apiUrl)
             .then((response) => {
                 newsIdList = response.data;
-                getCards(API_ITEM, newsIdList);
+                createCards(API_ITEM, newsIdList);
 
             })
             .catch(error => {
@@ -39,8 +40,8 @@ window.addEventListener('load', () => {
                 errorModal.style.display = 'block';
             });
     }
-
-    function getCards(apiUrl, newsIds) {
+    //la funzione createCards() prende prende gli id risultanti dallal funzione getNewsIds() e, tramite una chiamata axios alle rispettive news recupera le notizie e stampa le cards
+    function createCards(apiUrl, newsIds) {
         newsIdShortList = newsIds.splice(firstId, 10);
         newsIdShortList.forEach(newsId => {
             let itemUrl = `${apiUrl}${newsId}.json`;
@@ -80,7 +81,7 @@ window.addEventListener('load', () => {
                 });
         });
     }
-
+    //la funzione dataConversion() converte la data dal formato unix a gmt
     function dateConversion(unixTime) {
         let milliseconds = unixTime * 1000;
         var days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -130,7 +131,7 @@ window.addEventListener('load', () => {
     document.getElementById('loadMoreBtn').onclick = () => {
         document.getElementById('loading').classList.remove('d-none');
         document.getElementById('loadMoreBtn').classList.add('d-none');
-        getCards(API_ITEM, newsIdList);
+        createCards(API_ITEM, newsIdList);
         firstId += 10;
     };
     document.getElementById('app').classList.remove('d-none');
