@@ -1,6 +1,6 @@
 # TECH BREAK NEWS
 
-<img src="src/img/screenApp.png">
+<img src="screen/screenApp.png">
 
 ## Descrizione
 Tech Break è una webapp che permette di leggere notizie relative all'ambito tecnologico sfruttando le API di [Hacker News](https://github.com/HackerNews/API). Usa la libreria Axios per effettuare richieste HTTP per recuperare i dati delle notizie da vari endpoint API e quindi genera dinamicamente elementi HTML per visualizzare gli articoli della notizia sulla pagina. Il codice include funzioni per:
@@ -17,11 +17,11 @@ https://main--techbreak.netlify.app/
 ## Funzionalità
 L'utilizzo dell'applicazione è semplice: al primo avvio vengono caricate le 10 notizie più recenti della categoria NEWS. Per caricarne altre, 10 per volta, basta cliccare sul pulsante "LoadMore".
 
-<img src="src/img/screenLoad.png">
+<img src="screen/screenLoad.png">
 
 Cliccando sui tab nella parte superiore della pagina si può navigare tra le diverse categorie di notizie.
 
-<img src="src/img/screenTab.png">
+<img src="screen/screenTab.png">
 
 ## Installazione
 1. Clona il repository: `git clone https://github.com/paolov85/technews.git`
